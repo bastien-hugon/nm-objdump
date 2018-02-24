@@ -7,26 +7,32 @@
 
 #include "nm.h"
 
-void dumm_list(symlist_t *list)
+void dump_list(symlist_t *list)
 {
 	while (list) {
-		printf("%016x %c %s\n", list->sym->st_value, \
-		list->sym->st_info, list->name);
+		if (list->sym->st_value)
+			printf("%016lx ", list->sym->st_value);
+		else
+			printf("                 ");
+		printf("%c %s\n", print_type(*(list->sym), list->shdr), \
+		list->name);
 		list = list->next;
 	}
 }
 
-symlist_t *symlist_add_elem(symlist_t *list, Elf64_Sym *sym, char *name)
+symlist_t *symlist_add_elem(symlist_t *list, Elf64_Sym *sym, char *name, \
+Elf64_Shdr *shdr)
 {
 	symlist_t *tmp = list;
 	symlist_t *new = malloc(sizeof(symlist_t));
 
 
-	if (name[0] < 33)
+	if (name[0] < 33 || sym->st_info == STT_FILE)
 		return (list);
 	new->sym = sym;
 	new->name = name;
 	new->next = NULL;
+	new->shdr = shdr;
 	if (!list)
 		list = new;
 	else {
@@ -37,19 +43,15 @@ symlist_t *symlist_add_elem(symlist_t *list, Elf64_Sym *sym, char *name)
 	return (list);
 }
 
-void my_nm(Elf64_Ehdr *elf)
+symlist_t *my_nm(Elf64_Ehdr *elf, symlist_t *list)
 {
 	Elf64_Shdr *head = (Elf64_Shdr *) ((char *)elf + elf->e_shoff);
-//	Elf64_Shdr *sh_strtab = &head[elf->e_shstrndx];
-//	const char * const sh_strtab_p = ((char *)elf + sh_strtab->sh_offset);
 	Elf64_Shdr *stab;
 	Elf64_Sym *sym;
 	Elf64_Shdr *strtab;
 	char *symmaddr;
-	symlist_t *list = NULL;
 
 	for (int i = 0; i < elf->e_shnum; i++) {
-		//printf("%016x ? %s\n", head[i].sh_name, sh_strtab_p + head[i].sh_name);
 		if (head[i].sh_type == SHT_SYMTAB) {
 			stab = &head[i];
 			symmaddr = (char *)elf + (&head[i])->sh_offset;
@@ -60,7 +62,7 @@ void my_nm(Elf64_Ehdr *elf)
 		sym = &((Elf64_Sym *) symmaddr)[j];
 		strtab = &head[stab->sh_link];
 		list = symlist_add_elem(list, sym, \
-		(char *)elf + strtab->sh_offset + sym->st_name);
+		(char *)elf + strtab->sh_offset + sym->st_name, head);
 	}
-	dumm_list(list);
+	return (list);
 }

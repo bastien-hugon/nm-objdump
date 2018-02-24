@@ -5,16 +5,14 @@
 ## nm
 ##
 
-NAME	= my_nm
+NAME	= my_objdump
 
 CC	= gcc
 
 RM	= rm -f
 
 SRCS	= 	./main.c \
-		./nm.c \
-		./sort_sym.c \
-		./print_type.c \
+		./dump.c \
 		../core/manage_file.c
 
 OBJS	= $(SRCS:.c=.o)
