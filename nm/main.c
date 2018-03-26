@@ -25,6 +25,6 @@ int main(int ac, char const * const *av)
 		return (84);
 	}
 	list = sort_symlist(my_nm(elf, list));
-	dump_list(list);
+	dump_list(list, elf);
 	return (0);
 }

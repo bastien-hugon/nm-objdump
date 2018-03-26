@@ -7,15 +7,15 @@
 
 #include "nm.h"
 
-void dump_list(symlist_t *list)
+void dump_list(symlist_t *list, Elf64_Ehdr *elf)
 {
 	while (list) {
 		if (list->sym->st_value)
 			printf("%016lx ", list->sym->st_value);
 		else
 			printf("                 ");
-		printf("%c %s\n", print_type(*(list->sym), list->shdr), \
-		list->name);
+		printf("%c %s\n", print_type(*(list->sym), list->shdr, \
+		elf), list->name);
 		list = list->next;
 	}
 }

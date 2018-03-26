@@ -23,8 +23,8 @@
 	} symlist_t;
 
 	symlist_t *my_nm(Elf64_Ehdr *elf, symlist_t *);
-	char print_type(Elf64_Sym sym, Elf64_Shdr *shdr);
-	void dump_list(symlist_t *list);
+	char print_type(Elf64_Sym sym, Elf64_Shdr *shdr, Elf64_Ehdr *elf);
+	void dump_list(symlist_t *list, Elf64_Ehdr *elf);
 	symlist_t *sort_symlist(symlist_t *);
 
 #endif

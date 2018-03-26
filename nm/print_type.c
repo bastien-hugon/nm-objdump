@@ -14,7 +14,8 @@ char print_is_local(char c, Elf64_Sym sym)
 	return (c);
 }
 
-char print_type_common(char c, Elf64_Sym sym, Elf64_Shdr *shdr)
+char print_type_common(char c, Elf64_Sym sym, Elf64_Shdr *shdr, \
+Elf64_Ehdr *elf)
 {
 	if (shdr[sym.st_shndx].sh_type == SHT_PROGBITS && \
 	shdr[sym.st_shndx].sh_flags == (SHF_ALLOC | SHF_WRITE))
@@ -23,15 +24,15 @@ char print_type_common(char c, Elf64_Sym sym, Elf64_Shdr *shdr)
 	shdr[sym.st_shndx].sh_flags == (SHF_ALLOC | SHF_EXECINSTR))
 		c = 'T';
 	else {
-		if (shdr[sym.st_shndx].sh_type == SHT_DYNAMIC)
-			c = 'D';
+		if (!shdr->sh_type && elf->e_type == ET_REL)
+			c = 'N';
 		else
-			c = '?';
+			c = 'T';
 	}
 	return (print_is_local(c, sym));
 }
 
-char print_type_undef(char c, Elf64_Sym sym, Elf64_Shdr *shdr)
+char print_type_undef(char c, Elf64_Sym sym, Elf64_Shdr *shdr, Elf64_Ehdr *elf)
 {
 	if (ELF64_ST_BIND(sym.st_info) == STB_WEAK && \
 	ELF64_ST_TYPE(sym.st_info) == STT_OBJECT) {
@@ -49,12 +50,12 @@ char print_type_undef(char c, Elf64_Sym sym, Elf64_Shdr *shdr)
 		shdr[sym.st_shndx].sh_flags == SHF_ALLOC)
 			c = 'R';
 		else
-			return (print_type_common(c, sym, shdr));
+			return (print_type_common(c, sym, shdr, elf));
 	}
 	return (print_is_local(c, sym));
 }
 
-char print_type(Elf64_Sym sym, Elf64_Shdr *shdr)
+char print_type(Elf64_Sym sym, Elf64_Shdr *shdr, Elf64_Ehdr *elf)
 {
 	char c = 0;
 
@@ -71,7 +72,7 @@ char print_type(Elf64_Sym sym, Elf64_Shdr *shdr)
 		else if (sym.st_shndx == SHN_COMMON)
 			c = 'C';
 		else
-			return (print_type_undef(c, sym, shdr));
+			return (print_type_undef(c, sym, shdr, elf));
 	}
 	return (print_is_local(c, sym));
 }
