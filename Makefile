@@ -5,11 +5,38 @@
 ## nm / objdump
 ##
 
-all:
-	make -C nm/
-	mv nm/my_nm .
-	make -C objdump/
-	mv objdump/my_objdump .
+
+NMNAME	= my_nm
+
+OBJNAME	= my_objdump
+
+CC	= gcc
+
+RM	= rm -f
+
+NMSRCS	= 	./nm/main.c \
+		./nm/nm.c \
+		./nm/sort_sym.c \
+		./nm/print_type.c \
+		./core/manage_file.c
+
+OBJSRCS	= 	./objdump/main.c \
+		./objdump/dump.c \
+		./core/manage_file.c
+
+NMOBJS	= $(NMSRCS:.c=.o)
+OBJOBJS	= $(OBJSRCS:.c=.o)
+
+CFLAGS = -I ./nm/include/ -I ./core/include/ -I ./objdump/include/
+CFLAGS += -W -Wall -Wextra
+
+all: $(NMNAME) $(OBJNAME)
+
+$(NMNAME): $(NMOBJS)
+	$(CC) $(NMOBJS) -o $(NMNAME) $(LDFLAGS)
+
+$(OBJNAME): $(OBJOBJS)
+	$(CC) $(OBJOBJS) -o $(OBJNAME) $(LDFLAGS)
 
 clean:
 	$(RM) ./my_nm
