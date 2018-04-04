@@ -23,6 +23,7 @@ NMSRCS	= 	./nm/main.c \
 OBJSRCS	= 	./objdump/main.c \
 		./objdump/dump.c \
 		./objdump/print_header.c \
+		./objdump/print_char.c \
 		./core/manage_file.c
 
 NMOBJS	= $(NMSRCS:.c=.o)

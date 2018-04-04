@@ -14,6 +14,7 @@ RM	= rm -f
 SRCS	= 	./main.c \
 		./print_header.c \
 		./dump.c \
+		./print_char.c \
 		../core/manage_file.c
 
 OBJS	= $(SRCS:.c=.o)

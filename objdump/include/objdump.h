@@ -25,4 +25,9 @@
 
 	void objdump(Elf64_Ehdr *);
 	void print_header(const char *file, Elf64_Ehdr *elf);
+	void print_hexa_char(Elf64_Ehdr *elf, Elf64_Shdr shdr, unsigned int i);
+	void print_char(Elf64_Ehdr *elf, Elf64_Shdr shdr, unsigned int i);
+	void print_tabs_hexa(unsigned int i);
+	void print_tabs_section(unsigned int i);
+
 #endif
