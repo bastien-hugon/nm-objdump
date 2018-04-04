@@ -19,10 +19,11 @@ int main(int ac, char const * const *av)
 	}
 	elf = check_is_elf(elf);
 	if (!elf) {
-		fprintf(stderr, "objdump: '%s': File format not \
-		recognized\n", file);
+		fprintf(stderr, \
+		"objdump: '%s': File format not recognized\n", file);
 		return (84);
 	}
+	print_header(file, elf);
 	objdump(elf);
 	return (0);
 }

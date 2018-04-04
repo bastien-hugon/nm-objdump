@@ -14,6 +14,6 @@ void objdump(Elf64_Ehdr *elf)
 	const char * const sh_strtab_p = ((char *)elf + sh_strtab->sh_offset);
 
 	for (int i = 0; i < elf->e_shnum; i++) {
-		printf("%s\n", sh_strtab_p + head[i].sh_name);
+		//printf("%s\n", sh_strtab_p + head[i].sh_name);
 	}
 }

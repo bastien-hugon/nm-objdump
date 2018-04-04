@@ -12,6 +12,7 @@ CC	= gcc
 RM	= rm -f
 
 SRCS	= 	./main.c \
+		./print_header.c \
 		./dump.c \
 		../core/manage_file.c
 
