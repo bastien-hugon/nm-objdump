@@ -34,10 +34,10 @@ CFLAGS += -W -Wall -Wextra
 
 all: $(NMNAME) $(OBJNAME)
 
-$(NMNAME): $(NMOBJS)
+nm: $(NMOBJS)
 	$(CC) $(NMOBJS) -o $(NMNAME) $(LDFLAGS)
 
-$(OBJNAME): $(OBJOBJS)
+objdump: $(OBJOBJS)
 	$(CC) $(OBJOBJS) -o $(OBJNAME) $(LDFLAGS)
 
 clean:
