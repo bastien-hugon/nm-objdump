@@ -14,13 +14,13 @@ CC	= gcc
 
 RM	= rm -f
 
-NMSRCS	= 	./nm/main.c \
+NMSRCS	=	./nm/main.c \
 		./nm/nm.c \
 		./nm/sort_sym.c \
 		./nm/print_type.c \
 		./core/manage_file.c
 
-OBJSRCS	= 	./objdump/main.c \
+OBJSRCS	=	./objdump/main.c \
 		./objdump/dump.c \
 		./objdump/print_header.c \
 		./objdump/print_char.c \
@@ -32,7 +32,7 @@ OBJOBJS	= $(OBJSRCS:.c=.o)
 CFLAGS = -I ./nm/include/ -I ./core/include/ -I ./objdump/include/
 CFLAGS += -W -Wall -Wextra
 
-all: $(NMNAME) $(OBJNAME)
+all: nm objdump
 
 nm: $(NMOBJS)
 	$(CC) $(NMOBJS) -o $(NMNAME) $(LDFLAGS)
@@ -50,4 +50,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all nm objdump clean fclean re
