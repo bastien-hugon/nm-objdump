@@ -14,6 +14,8 @@ int main(int ac, char const * const *av)
 	symlist_t *list = NULL;
 
 	elf = manage_file(file);
+	if (elf->e_ident[EI_CLASS] != 2)
+		exit(0);
 	if (!elf) {
 		fprintf(stderr, "nm: '%s': No such file\n", file);
 		return (84);
